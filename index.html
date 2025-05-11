@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 id="profile-name" class="animated-title">Tên của bạn</h1>
+        <p id="profile-bio">Mô tả ngắn về bạn...</p>
+        <div class="social-links">
+            <a href="#" class="social-button">Twitter</a>
+            <a href="#" class="social-button">Instagram</a>
+        </div>
+        <div class="customize">
+            <h2>Tùy chỉnh</h2>
+            <label>Tên: <input type="text" id="name-input" placeholder="Nhập tên"></label>
+            <label>Mô tả: <textarea id="bio-input" placeholder="Nhập mô tả"></textarea></label>
+            <label>Màu nền: <input type="color" id="bg-color-input"></label>
+            <label>Màu chữ: <input type="color" id="text-color-input"></label>
+            <button onclick="updateProfile()">Cập nhật</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
