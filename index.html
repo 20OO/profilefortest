@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Lyrics Player</title>
+    <title>Modern Audio Player</title>
     <style>
         * {
             margin: 0;
@@ -11,489 +11,444 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #fff;
-            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
         }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff6b6b, #ffa500);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #a0a0c0;
-        }
-
-        .player-container {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+        
+        .audio-player {
+            background-color: white;
             border-radius: 20px;
-            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
         }
-
-        .song-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        
+        .player-header {
             margin-bottom: 25px;
         }
-
-        .album-art {
-            width: 120px;
-            height: 120px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        
+        .player-header h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 5px;
         }
-
+        
+        .player-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .album-art {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            margin: 0 auto 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
         .album-art img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .song-details {
-            flex: 1;
+        
+        .song-info {
+            margin-bottom: 25px;
         }
-
+        
         .song-title {
-            font-size: 1.8rem;
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 5px;
         }
-
-        .artist {
-            font-size: 1.2rem;
-            color: #ffa500;
-            margin-bottom: 10px;
+        
+        .song-artist {
+            font-size: 16px;
+            color: #666;
         }
-
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin: 20px 0;
-            cursor: pointer;
-            overflow: hidden;
+        
+        .progress-area {
+            margin-bottom: 25px;
         }
-
+        
         .progress-bar {
+            height: 6px;
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        
+        .progress {
             height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #ffa500);
-            border-radius: 10px;
             width: 0%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: inherit;
+            position: relative;
             transition: width 0.1s linear;
         }
-
-        .time-info {
+        
+        .timer {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
-            color: #a0a0c0;
-            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
         }
-
+        
         .controls {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px;
-            margin: 20px 0;
+            margin-bottom: 25px;
         }
-
+        
         .control-btn {
             background: none;
             border: none;
-            color: #fff;
-            font-size: 1.5rem;
+            font-size: 24px;
+            color: #667eea;
             cursor: pointer;
+            margin: 0 15px;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
         }
-
+        
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            color: #764ba2;
             transform: scale(1.1);
         }
-
-        .play-btn {
-            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+        
+        .play-pause {
             width: 60px;
             height: 60px;
-            font-size: 1.8rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-
-        .play-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        
+        .playlist {
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
         }
-
-        .lyrics-container {
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-            position: relative;
-            margin: 20px 0;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            padding: 20px;
+        
+        .playlist h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
-
-        .lyrics {
-            position: relative;
-            transition: transform 0.5s ease;
+        
+        .playlist-item {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
         }
-
-        .lyric-line {
-            font-size: 1.4rem;
-            text-align: center;
-            margin: 15px 0;
-            padding: 10px 15px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            opacity: 0.5;
-            transform: scale(0.95);
+        
+        .playlist-item:hover {
+            background-color: #f5f5f5;
         }
-
-        .lyric-line.active {
-            opacity: 1;
-            transform: scale(1);
-            background: rgba(255, 165, 0, 0.2);
-            color: #ffa500;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.2);
+        
+        .playlist-item.active {
+            background-color: #eef2ff;
+            color: #667eea;
+            font-weight: 500;
         }
-
+        
+        .playlist-item .play-icon {
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
         .volume-control {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
-
+        
+        .volume-control i {
+            color: #667eea;
+            margin-right: 10px;
+        }
+        
         .volume-slider {
             flex: 1;
-            -webkit-appearance: none;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            outline: none;
-        }
-
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #ffa500;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 50px;
             cursor: pointer;
         }
-
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            color: #a0a0c0;
-            font-size: 0.9rem;
+        
+        .volume-progress {
+            height: 100%;
+            width: 70%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: inherit;
         }
-
-        @media (max-width: 600px) {
-            .song-info {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .lyric-line {
-                font-size: 1.2rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
+        
+        /* Scrollbar styling */
+        .playlist::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .playlist::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .playlist::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        .playlist::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Animated Lyrics Player</h1>
-            <p class="subtitle">Watch the lyrics sync with the music</p>
-        </header>
+    <div class="audio-player">
+        <div class="player-header">
+            <h1>Modern Audio Player</h1>
+            <p>Enjoy your favorite music</p>
+        </div>
         
-        <div class="player-container">
-            <div class="song-info">
-                <div class="album-art">
-                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Album Art">
-                </div>
-                <div class="song-details">
-                    <h2 class="song-title">Imagine</h2>
-                    <p class="artist">John Lennon</p>
-                    <p class="album">Imagine (1971)</p>
-                </div>
+        <div class="album-art">
+            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Album Art">
+        </div>
+        
+        <div class="song-info">
+            <div class="song-title">Sunset Dreams</div>
+            <div class="song-artist">Chill Vibes</div>
+        </div>
+        
+        <div class="progress-area">
+            <div class="progress-bar">
+                <div class="progress"></div>
             </div>
-            
-            <div class="progress-container" id="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-            <div class="time-info">
-                <span id="current-time">0:00</span>
-                <span id="duration">3:07</span>
-            </div>
-            
-            <div class="controls">
-                <button class="control-btn" id="prev-btn">⏮</button>
-                <button class="control-btn play-btn" id="play-btn">▶</button>
-                <button class="control-btn" id="next-btn">⏭</button>
-            </div>
-            
-            <div class="volume-control">
-                <span>🔊</span>
-                <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="70">
+            <div class="timer">
+                <span class="current">0:00</span>
+                <span class="duration">0:00</span>
             </div>
         </div>
         
-        <div class="lyrics-container">
-            <div class="lyrics" id="lyrics">
-                <!-- Lyrics will be populated by JavaScript -->
+        <div class="controls">
+            <button class="control-btn" id="prev">
+                <i>⏮</i>
+            </button>
+            <button class="control-btn play-pause" id="play-pause">
+                <i>▶</i>
+            </button>
+            <button class="control-btn" id="next">
+                <i>⏭</i>
+            </button>
+        </div>
+        
+        <div class="volume-control">
+            <i>🔊</i>
+            <div class="volume-slider">
+                <div class="volume-progress"></div>
             </div>
         </div>
         
-        <footer>
-            <p>Created for GitHub Repository | Animated Lyrics Player</p>
-        </footer>
+        <div class="playlist">
+            <h3>Playlist</h3>
+            <div class="playlist-item active">
+                <span class="play-icon">▶</span> Sunset Dreams
+            </div>
+            <div class="playlist-item">
+                <span class="play-icon">▶</span> Ocean Waves
+            </div>
+            <div class="playlist-item">
+                <span class="play-icon">▶</span> Mountain High
+            </div>
+            <div class="playlist-item">
+                <span class="play-icon">▶</span> City Lights
+            </div>
+        </div>
     </div>
 
+    <audio id="main-audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
     <script>
-        // Song data
-        const songs = [
+        const audio = document.getElementById("main-audio");
+        const playPauseBtn = document.getElementById("play-pause");
+        const prevBtn = document.getElementById("prev");
+        const nextBtn = document.getElementById("next");
+        const progressBar = document.querySelector(".progress");
+        const progressArea = document.querySelector(".progress-bar");
+        const currentTimeEl = document.querySelector(".current");
+        const durationEl = document.querySelector(".duration");
+        const playlistItems = document.querySelectorAll(".playlist-item");
+        const volumeSlider = document.querySelector(".volume-slider");
+        const volumeProgress = document.querySelector(".volume-progress");
+        
+        // Sample playlist data
+        const playlist = [
             {
-                title: "Imagine",
-                artist: "John Lennon",
-                album: "Imagine (1971)",
-                duration: "3:07",
-                lyrics: [
-                    { time: 5, text: "Imagine there's no heaven" },
-                    { time: 10, text: "It's easy if you try" },
-                    { time: 15, text: "No hell below us" },
-                    { time: 20, text: "Above us, only sky" },
-                    { time: 27, text: "Imagine all the people" },
-                    { time: 33, text: "Livin' for today" },
-                    { time: 42, text: "Imagine there's no countries" },
-                    { time: 48, text: "It isn't hard to do" },
-                    { time: 54, text: "Nothing to kill or die for" },
-                    { time: 60, text: "And no religion, too" },
-                    { time: 67, text: "Imagine all the people" },
-                    { time: 73, text: "Livin' life in peace" },
-                    { time: 85, text: "You may say I'm a dreamer" },
-                    { time: 91, text: "But I'm not the only one" },
-                    { time: 97, text: "I hope someday you'll join us" },
-                    { time: 103, text: "And the world will be as one" },
-                    { time: 115, text: "Imagine no possessions" },
-                    { time: 121, text: "I wonder if you can" },
-                    { time: 127, text: "No need for greed or hunger" },
-                    { time: 133, text: "A brotherhood of man" },
-                    { time: 140, text: "Imagine all the people" },
-                    { time: 146, text: "Sharing all the world" },
-                    { time: 158, text: "You may say I'm a dreamer" },
-                    { time: 164, text: "But I'm not the only one" },
-                    { time: 170, text: "I hope someday you'll join us" },
-                    { time: 176, text: "And the world will live as one" }
-                ]
+                title: "Sunset Dreams",
+                artist: "Chill Vibes",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                title: "Ocean Waves",
+                artist: "Nature Sounds",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                cover: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                title: "Mountain High",
+                artist: "Adventure Mix",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                cover: "https://images.unsplash.com/photo-1464822759849-e41d2c1c73b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                title: "City Lights",
+                artist: "Urban Beats",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                cover: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
             }
         ];
-
-        // DOM Elements
-        const playBtn = document.getElementById('play-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const currentTimeEl = document.getElementById('current-time');
-        const durationEl = document.getElementById('duration');
-        const volumeSlider = document.getElementById('volume-slider');
-        const lyricsContainer = document.getElementById('lyrics');
-
-        // Player state
-        let isPlaying = false;
+        
         let currentSongIndex = 0;
-        let currentTime = 0;
-        let progressInterval;
-
-        // Initialize
-        function init() {
-            loadSong(songs[currentSongIndex]);
-            updateLyricsDisplay();
+        
+        // Format time in minutes and seconds
+        function formatTime(seconds) {
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? "0" : ""}${sec}`;
         }
-
+        
         // Load song
-        function loadSong(song) {
-            document.querySelector('.song-title').textContent = song.title;
-            document.querySelector('.artist').textContent = song.artist;
-            document.querySelector('.album').textContent = song.album;
-            durationEl.textContent = song.duration;
+        function loadSong(index) {
+            const song = playlist[index];
+            
+            // Update audio source
+            audio.src = song.src;
+            
+            // Update UI
+            document.querySelector(".song-title").textContent = song.title;
+            document.querySelector(".song-artist").textContent = song.artist;
+            document.querySelector(".album-art img").src = song.cover;
+            
+            // Update active playlist item
+            playlistItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active");
+                }
+            });
             
             // Reset progress
-            progressBar.style.width = '0%';
-            currentTimeEl.textContent = '0:00';
-            currentTime = 0;
+            progressBar.style.width = "0%";
+            currentTimeEl.textContent = "0:00";
             
-            // Update lyrics
-            updateLyricsDisplay();
-        }
-
-        // Update lyrics display
-        function updateLyricsDisplay() {
-            const lyrics = songs[currentSongIndex].lyrics;
-            lyricsContainer.innerHTML = '';
-            
-            lyrics.forEach(lyric => {
-                const lyricElement = document.createElement('div');
-                lyricElement.classList.add('lyric-line');
-                lyricElement.textContent = lyric.text;
-                lyricElement.dataset.time = lyric.time;
-                lyricsContainer.appendChild(lyricElement);
+            // Update duration when metadata is loaded
+            audio.addEventListener("loadedmetadata", () => {
+                durationEl.textContent = formatTime(audio.duration);
             });
         }
-
-        // Play/Pause
-        function togglePlay() {
-            isPlaying = !isPlaying;
-            
-            if (isPlaying) {
-                playBtn.textContent = '⏸';
-                startProgress();
+        
+        // Play or pause song
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.innerHTML = '<i>⏸</i>';
             } else {
-                playBtn.textContent = '▶';
-                clearInterval(progressInterval);
+                audio.pause();
+                playPauseBtn.innerHTML = '<i>▶</i>';
             }
         }
-
-        // Start progress
-        function startProgress() {
-            const duration = 187; // Total duration in seconds for this example
-            
-            progressInterval = setInterval(() => {
-                if (currentTime >= duration) {
-                    clearInterval(progressInterval);
-                    isPlaying = false;
-                    playBtn.textContent = '▶';
-                    return;
-                }
-                
-                currentTime++;
-                updateProgress();
-                updateActiveLyric();
-            }, 1000);
-        }
-
+        
         // Update progress bar
-        function updateProgress() {
-            const duration = 187; // Total duration in seconds
+        function updateProgress(e) {
+            const { duration, currentTime } = e.srcElement;
             const progressPercent = (currentTime / duration) * 100;
             progressBar.style.width = `${progressPercent}%`;
-            
-            // Update time display
-            const minutes = Math.floor(currentTime / 60);
-            const seconds = Math.floor(currentTime % 60).toString().padStart(2, '0');
-            currentTimeEl.textContent = `${minutes}:${seconds}`;
+            currentTimeEl.textContent = formatTime(currentTime);
         }
-
-        // Update active lyric
-        function updateActiveLyric() {
-            const lyrics = document.querySelectorAll('.lyric-line');
-            let activeIndex = -1;
-            
-            // Find the current lyric based on time
-            for (let i = 0; i < lyrics.length; i++) {
-                const lyricTime = parseInt(lyrics[i].dataset.time);
-                
-                if (currentTime >= lyricTime) {
-                    activeIndex = i;
-                } else {
-                    break;
-                }
-            }
-            
-            // Update active class
-            lyrics.forEach((lyric, index) => {
-                if (index === activeIndex) {
-                    lyric.classList.add('active');
-                    
-                    // Scroll to active lyric
-                    const container = document.querySelector('.lyrics-container');
-                    const lyricTop = lyric.offsetTop;
-                    const containerHeight = container.clientHeight;
-                    
-                    container.scrollTo({
-                        top: lyricTop - containerHeight / 2,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    lyric.classList.remove('active');
-                }
-            });
-        }
-
-        // Set progress
+        
+        // Set progress when clicking on progress bar
         function setProgress(e) {
             const width = this.clientWidth;
             const clickX = e.offsetX;
-            const duration = 187; // Total duration in seconds
-            currentTime = (clickX / width) * duration;
-            updateProgress();
-            updateActiveLyric();
+            const duration = audio.duration;
+            
+            audio.currentTime = (clickX / width) * duration;
         }
-
-        // Change volume
-        function setVolume() {
-            // In a real implementation, this would control audio volume
-            console.log(`Volume set to: ${volumeSlider.value}%`);
+        
+        // Play next song
+        function nextSong() {
+            currentSongIndex++;
+            if (currentSongIndex >= playlist.length) {
+                currentSongIndex = 0;
+            }
+            loadSong(currentSongIndex);
+            audio.play();
+            playPauseBtn.innerHTML = '<i>⏸</i>';
         }
-
+        
+        // Play previous song
+        function prevSong() {
+            currentSongIndex--;
+            if (currentSongIndex < 0) {
+                currentSongIndex = playlist.length - 1;
+            }
+            loadSong(currentSongIndex);
+            audio.play();
+            playPauseBtn.innerHTML = '<i>⏸</i>';
+        }
+        
+        // Set volume
+        function setVolume(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const volume = clickX / width;
+            
+            audio.volume = volume;
+            volumeProgress.style.width = `${volume * 100}%`;
+        }
+        
         // Event listeners
-        playBtn.addEventListener('click', togglePlay);
-        progressContainer.addEventListener('click', setProgress);
-        volumeSlider.addEventListener('input', setVolume);
-
-        // Initialize the player
-        init();
-        <audio id="audio-player">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
+        playPauseBtn.addEventListener("click", togglePlayPause);
+        prevBtn.addEventListener("click", prevSong);
+        nextBtn.addEventListener("click", nextSong);
+        audio.addEventListener("timeupdate", updateProgress);
+        audio.addEventListener("ended", nextSong);
+        progressArea.addEventListener("click", setProgress);
+        volumeSlider.addEventListener("click", setVolume);
+        
+        // Playlist item click
+        playlistItems.forEach((item, index) => {
+            item.addEventListener("click", () => {
+                currentSongIndex = index;
+                loadSong(currentSongIndex);
+                audio.play();
+                playPauseBtn.innerHTML = '<i>⏸</i>';
+            });
+        });
+        
+        // Initialize player
+        loadSong(currentSongIndex);
     </script>
 </body>
 </html>
