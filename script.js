@@ -1,13 +1,13 @@
-function updateProfile() {
-    // Lấy giá trị từ input
-    const name = document.getElementById("name-input").value;
-    const bio = document.getElementById("bio-input").value;
-    const bgColor = document.getElementById("bg-color-input").value;
-    const textColor = document.getElementById("text-color-input").value;
-
-    // Cập nhật profile
-    if (name) document.getElementById("profile-name").textContent = name;
-    if (bio) document.getElementById("profile-bio").textContent = bio;
-    document.body.style.backgroundColor = bgColor || "#f0f0f0";
-    document.querySelector(".container").style.color = textColor || "#333";
-}
+const songs = [
+    {
+        title: "Your Song Title",
+        artist: "Your Artist",
+        album: "Your Album",
+        audioUrl: "https://your-domain.com/your-song.mp3",
+        lyrics: [
+            { time: 5, text: "First line of lyrics" },
+            { time: 10, text: "Second line of lyrics" },
+            // ... more lyrics with timestamps
+        ]
+    }
+];
